@@ -1,0 +1,390 @@
+<div class="container">
+  <akaliia-page-title
+    [title]="title"
+    [breadcrumbItems]="breadCrumbItems"
+  ></akaliia-page-title>
+  <div class="row">
+    <div class="col-12">
+      <ngb-alert
+        *ngIf="message"
+        [type]="message.type"
+        dismissible="true"
+        (close)="message = null"
+      >
+        {{ message.message }}
+      </ngb-alert>
+      <div class="card">
+        <div class="card-body">
+          <form
+            class="needs-validation"
+            (ngSubmit)="submitForm()"
+            [formGroup]="userForm"
+          >
+            <akaliia-ui-preloader [display]="loading"></akaliia-ui-preloader>
+            <div class="row">
+              <div class="col-12">
+                <h4 class="header-title mt-0 mb-2">Información personal</h4>
+                <div class="row">
+                  <div class="col-xl-6 col-sm-6">
+                    <div class="form-group mt-3 mt-sm-0">
+                      <label class="col-form-label">Tipo de Documento</label>
+                      <ng-select
+                        formControlName="document_type"
+                        [ngClass]="{
+                          'is-invalid':
+                            userForm.get('document_type').errors &&
+                            userForm.get('document_type').touched
+                        }"
+                        [loading]="documentTypesLoading"
+                        [items]="documentTypes"
+                        bindLabel="name"
+                        bindValue="id"
+                      ></ng-select>
+                      <div
+                        *ngIf="
+                          userForm.get('document_type').errors &&
+                          userForm.get('document_type').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.get('document_type')?.hasError('required')
+                          "
+                        >
+                          El Tipo de documento es requerido
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 col-sm-6">
+                    <div class="form-group mt-3 mt-sm-0">
+                      <label class="col-form-label">Documento</label>
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            userForm.get('document').errors &&
+                            userForm.get('document').touched
+                        }"
+                        type="text"
+                        class="form-control"
+                        mask="separator.0"
+                        thousandSeparator="."
+                        formControlName="document"
+                      />
+                      <div
+                        *ngIf="
+                          userForm.get('document').errors &&
+                          userForm.get('document').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          *ngIf="userForm.get('document')?.hasError('required')"
+                        >
+                          El numero de documento es requerido
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 col-sm-6">
+                    <div class="form-group mt-3 mt-sm-0">
+                      <label class="col-form-label">Nombre</label>
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            userForm.get('firstname').errors &&
+                            userForm.get('firstname').touched
+                        }"
+                        type="text"
+                        class="form-control"
+                        formControlName="firstname"
+                      />
+                      <div
+                        *ngIf="
+                          userForm.get('firstname').errors &&
+                          userForm.get('firstname').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.get('firstname')?.hasError('required')
+                          "
+                        >
+                          El nombre es requerido
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 col-sm-6">
+                    <div class="form-group mt-3 mt-sm-0">
+                      <label class="col-form-label">Apellidos</label>
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            userForm.get('lastname').errors &&
+                            userForm.get('lastname').touched
+                        }"
+                        type="text"
+                        class="form-control"
+                        formControlName="lastname"
+                      />
+                      <div
+                        *ngIf="
+                          userForm.get('lastname').errors &&
+                          userForm.get('lastname').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          *ngIf="userForm.get('lastname')?.hasError('required')"
+                        >
+                          El apellido es requerido
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h4 class="header-title mt-0 mb-2">
+                  Información de contacto
+                </h4>
+
+                <div class="row">
+                  <div class="col-xl-6 col-sm-6">
+                    <div class="form-group mt-3 mt-sm-0">
+                      <label class="col-form-label">Celular</label>
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            userForm.get('telephone').errors &&
+                            userForm.get('telephone').touched
+                        }"
+                        type="text"
+                        class="form-control"
+                        mask="000-000-00-00"
+                        formControlName="telephone"
+                      />
+                      <div
+                        *ngIf="
+                          userForm.get('telephone').errors &&
+                          userForm.get('telephone').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.get('telephone')?.hasError('required')
+                          "
+                        >
+                          El celular es requerido
+                        </div>
+
+                        <div
+                          *ngIf="
+                            userForm.get('telephone')?.hasError('Mask error')
+                          "
+                        >
+                          El celular debe tener el formato 000-000-00-00
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-xl-6 col-sm-6"
+                    formArrayName="address"
+                    *ngFor="let item of address.controls; let i = index"
+                  >
+                    <div class="form-group mt-3 mt-sm-0" [formGroupName]="i">
+                      <label class="col-form-label">Dirección</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="Street"
+                        [ngClass]="{
+                          'is-invalid':
+                            item.get('Street').errors &&
+                            item.get('Street').touched
+                        }"
+                      />
+                      <div
+                        *ngIf="
+                          item.get('Street').errors &&
+                          item.get('Street').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="item.get('Street')?.hasError('required')">
+                          La direccion es requerida
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4 class="header-title mt-1 mb-1">Información de la cuenta</h4>
+
+                <div class="row">
+                  <div
+                    class=""
+                    [ngClass]="{
+                      'col-sm-4 col-xl-4': type === 'create',
+                      'col-sm-12 col-xl-12': type === 'update'
+                    }"
+                  >
+                    <div class="form-group mt-3 mt-sm-0">
+                      <label class="col-form-label">Correo Electronico</label>
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            userForm.get('email').errors &&
+                            userForm.get('email').touched
+                        }"
+                        type="email"
+                        class="form-control"
+                        formControlName="email"
+                      />
+                      <ul
+                        *ngIf="
+                          userForm.get('email').errors &&
+                          userForm.get('email').touched
+                        "
+                        class="invalid-feedback"
+                      >
+                        <li *ngIf="userForm.get('email').hasError('required')">
+                          El correo electronico es requerido
+                        </li>
+                        <li *ngIf="userForm.get('email').hasError('email')">
+                          El correo electrónico debe ser una dirección de correo
+                          electrónico válida
+                        </li>
+                        <li *ngIf="userForm.get('email').hasError('minlength')">
+                          El nombre de usuario debe tener almenos 6 caracteres
+                        </li>
+                        <li *ngIf="userForm.get('email').hasError('emailUsed')">
+                          Este correo electronico ya está siendo usado
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-8" *ngIf="type === 'create'">
+                    <div class="row">
+                      <div class="col-xl-6 col-sm-6">
+                        <div class="form-group mt-3 mt-sm-0">
+                          <label class="col-form-label">Contraseña</label>
+                          <input
+                            [ngClass]="{
+                              'is-invalid':
+                                userForm.get('password').errors &&
+                                userForm.get('password').touched
+                            }"
+                            type="password"
+                            class="form-control"
+                            formControlName="password"
+                          />
+                          <div
+                            *ngIf="
+                              userForm.get('password').errors &&
+                              userForm.get('password').touched
+                            "
+                            class="invalid-feedback"
+                          >
+                            <div
+                              *ngIf="
+                                userForm.get('password').hasError('required')
+                              "
+                            >
+                              La contraseña es requerida
+                            </div>
+                            <div
+                              *ngIf="
+                                userForm.get('password').hasError('minlength')
+                              "
+                            >
+                              La contraseña debe tener almenos 8 caracteres
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6 col-sm-6">
+                        <div class="form-group mt-3 mt-sm-0">
+                          <label class="col-form-label"
+                            >Confirmar contraseña</label
+                          >
+                          <input
+                            [ngClass]="{
+                              'is-invalid':
+                                userForm.get('confirmPassword').errors &&
+                                userForm.get('confirmPassword').touched
+                            }"
+                            type="password"
+                            class="form-control"
+                            formControlName="confirmPassword"
+                          />
+                          <div
+                            *ngIf="
+                              userForm.get('confirmPassword').errors &&
+                              userForm.get('confirmPassword').touched
+                            "
+                            class="invalid-feedback"
+                          >
+                            <div
+                              *ngIf="
+                                userForm
+                                  .get('confirmPassword')
+                                  .hasError('required')
+                              "
+                            >
+                              La contraseña es requerida
+                            </div>
+                            <div
+                              *ngIf="
+                                userForm
+                                  .get('confirmPassword')
+                                  .hasError('minlength')
+                              "
+                            >
+                              La contraseña debe tener almenos 8 caracteres
+                            </div>
+                            <div
+                              *ngIf="
+                                userForm
+                                  .get('confirmPassword')
+                                  .hasError('passwordMismatch')
+                              "
+                            >
+                              Las contraseñas no coinciden
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xl-12 text-right mb-0">
+                    <button
+                      type="submit"
+                      class="btn btn-primary waves-effect waves-light "
+                    >
+                      {{
+                        type == 'create'
+                          ? 'Registrar Usuario'
+                          : 'Actualizar Usuario'
+                      }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- end card-body -->
+      </div>
+    </div>
+  </div>
+</div>

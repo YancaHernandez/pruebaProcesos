@@ -1,0 +1,9 @@
+[build]
+  publish = "./dist"
+  command = "npm run nx build --all --parallel --prod"
+
+[context.deploy-preview]
+  command = "npm run nx build --all --parallel --configuration=staging && npm run doc"
+
+[context.develop]
+  command = "npm run nx build --all --parallel --configuration=staging && npm run doc"

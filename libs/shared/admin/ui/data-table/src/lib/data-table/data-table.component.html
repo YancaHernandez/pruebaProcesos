@@ -1,0 +1,67 @@
+<div class="row mb-md-2 mt-3">
+  <div class="col-sm-12 col-md-6">
+    <div class="dataTables_length">
+      <label class="d-inline-flex align-items-center">
+        Mostrar
+        <select
+          aria-controls="tickets-table"
+          [(ngModel)]="pageSize"
+          class="custom-select custom-select-sm form-control form-control-sm mx-2"
+        >
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+        entradas</label
+      >
+    </div>
+  </div>
+  <!-- Search -->
+  <div class="col-sm-12 col-md-6">
+    <div class="dataTables_filter text-md-right">
+      <label class="d-inline-flex align-items-center"
+        >Buscar:
+        <input
+          type="text"
+          class="form-control form-control-sm ml-2"
+          [(ngModel)]="searchTerm"
+      /></label>
+    </div>
+  </div>
+  <!-- End search -->
+</div>
+<!-- Table -->
+<ng-container
+  *ngTemplateOutlet="
+    parentTemplate;
+    context: {
+      tableData: tableData,
+      onSort: toggle,
+      tables$: tables$,
+      searchTerm: searchTerm
+    }
+  "
+></ng-container>
+<!-- End table -->
+<div class="row justify-content-md-between align-items-md-center mt-2">
+  <div class="col-sm-12 col-md-5">
+    <div class="dataTables_info mb-2" role="status" aria-live="polite">
+      Mostrando {{ startIndex + 1 }} a {{ endIndex }} de
+      {{ totalRecords }}
+      entradas
+    </div>
+  </div>
+  <!-- Pagination -->
+  <div class="col-sm-12 col-md-5">
+    <div class="text-md-right float-md-right pagination-rounded">
+      <ngb-pagination
+        [collectionSize]="total$ | async"
+        [(page)]="page"
+        [pageSize]="pageSize"
+      >
+      </ngb-pagination>
+    </div>
+  </div>
+  <!-- End Pagination -->
+</div>

@@ -1,0 +1,9 @@
+<akaliia-user-form
+  type="create"
+  [breadCrumbItems]="breadCrumbItems"
+  [title]="title"
+  [user]="user"
+  [message]="message"
+  (data)="submitForm($event)"
+  *ngIf="user"
+></akaliia-user-form>

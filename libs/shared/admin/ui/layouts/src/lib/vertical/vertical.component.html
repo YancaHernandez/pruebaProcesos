@@ -1,0 +1,19 @@
+<div id="wrapper">
+  <layout-topbar
+    (settingsButtonClicked)="onSettingsButtonClicked()"
+    (mobileMenuButtonClicked)="onToggleMobileMenu()"
+  >
+  </layout-topbar>
+
+  <layout-leftsidebar [sidebarType]="sidebarType"></layout-leftsidebar>
+
+  <div class="content-page">
+    <div class="content">
+      <!-- content -->
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- footer -->
+    <layout-footer></layout-footer>
+  </div>
+</div>

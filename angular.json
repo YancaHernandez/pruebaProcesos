@@ -1,0 +1,801 @@
+{
+  "version": 1,
+  "projects": {
+    "admin-web": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/admin/web",
+      "sourceRoot": "apps/admin/web/src",
+      "prefix": "akaliia",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/admin",
+            "index": "apps/admin/web/src/index.html",
+            "main": "apps/admin/web/src/main.ts",
+            "polyfills": "apps/admin/web/src/polyfills.ts",
+            "tsConfig": "apps/admin/web/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/admin/web/src/favicon.ico",
+              "apps/admin/web/src/assets"
+            ],
+            "styles": [
+              "libs/shared/admin/ui/theme/src/assets/scss/bootstrap.scss",
+              "libs/shared/admin/ui/theme/src/assets/scss/app.scss",
+              "libs/shared/admin/ui/theme/src/assets/scss/icons.scss",
+              "apps/admin/web/src/styles.scss"
+            ],
+            "scripts": ["./node_modules/apexcharts/dist/apexcharts.min.js"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/admin/web/src/environments/environment.ts",
+                  "with": "apps/admin/web/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/admin/web/src/environments/environment.ts",
+                  "with": "apps/admin/web/src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "admin-web:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "admin-web:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "admin-web:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/admin/web/tsconfig.app.json",
+              "apps/admin/web/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/admin/web/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/admin/web/jest.config.js",
+            "tsConfig": "apps/admin/web/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/admin/web/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "admin/web-e2e": {
+      "root": "apps/admin/web-e2e",
+      "sourceRoot": "apps/admin/web-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/admin/web-e2e/cypress.json",
+            "tsConfig": "apps/admin/web-e2e/tsconfig.e2e.json",
+            "devServerTarget": "admin-web:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "admin-web:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/admin/web-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/admin/web-e2e/**"]
+          }
+        }
+      }
+    },
+    "admin-feature-shell": {
+      "projectType": "library",
+      "root": "libs/admin/feature/shell",
+      "sourceRoot": "libs/admin/feature/shell/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/feature/shell/tsconfig.lib.json",
+              "libs/admin/feature/shell/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/feature/shell/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/feature/shell/jest.config.js",
+            "tsConfig": "libs/admin/feature/shell/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/feature/shell/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-feature-auth": {
+      "projectType": "library",
+      "root": "libs/admin/feature/auth",
+      "sourceRoot": "libs/admin/feature/auth/src",
+      "prefix": "auth",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/feature/auth/tsconfig.lib.json",
+              "libs/admin/feature/auth/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/feature/auth/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/feature/auth/jest.config.js",
+            "tsConfig": "libs/admin/feature/auth/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/feature/auth/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-data-access-api": {
+      "projectType": "library",
+      "root": "libs/shared/data-access/api",
+      "sourceRoot": "libs/shared/data-access/api/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/data-access/api/tsconfig.lib.json",
+              "libs/shared/data-access/api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/data-access/api/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/data-access/api/jest.config.js",
+            "tsConfig": "libs/shared/data-access/api/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/data-access/api/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-feature-dashboard": {
+      "projectType": "library",
+      "root": "libs/admin/feature/dashboard",
+      "sourceRoot": "libs/admin/feature/dashboard/src",
+      "prefix": "admin-dashboard",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/feature/dashboard/tsconfig.lib.json",
+              "libs/admin/feature/dashboard/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/admin/feature/dashboard/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/feature/dashboard/jest.config.js",
+            "tsConfig": "libs/admin/feature/dashboard/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/feature/dashboard/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-guards": {
+      "projectType": "library",
+      "root": "libs/shared/guards",
+      "sourceRoot": "libs/shared/guards/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/guards/tsconfig.lib.json",
+              "libs/shared/guards/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/guards/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/guards/jest.config.js",
+            "tsConfig": "libs/shared/guards/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/guards/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-feature-user": {
+      "projectType": "library",
+      "root": "libs/admin/feature/user",
+      "sourceRoot": "libs/admin/feature/user/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/feature/user/tsconfig.lib.json",
+              "libs/admin/feature/user/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/feature/user/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/feature/user/jest.config.js",
+            "tsConfig": "libs/admin/feature/user/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/feature/user/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-api-interfaces": {
+      "root": "libs/shared/api-interfaces",
+      "sourceRoot": "libs/shared/api-interfaces/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/api-interfaces/tsconfig.lib.json",
+              "libs/shared/api-interfaces/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/api-interfaces/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/api-interfaces/jest.config.js",
+            "tsConfig": "libs/shared/api-interfaces/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "admin-feature-products": {
+      "projectType": "library",
+      "root": "libs/admin/feature/products",
+      "sourceRoot": "libs/admin/feature/products/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/feature/products/tsconfig.lib.json",
+              "libs/admin/feature/products/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/feature/products/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/feature/products/jest.config.js",
+            "tsConfig": "libs/admin/feature/products/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/feature/products/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-feature-category": {
+      "projectType": "library",
+      "root": "libs/admin/feature/category",
+      "sourceRoot": "libs/admin/feature/category/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/feature/category/tsconfig.lib.json",
+              "libs/admin/feature/category/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/feature/category/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/feature/category/jest.config.js",
+            "tsConfig": "libs/admin/feature/category/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/feature/category/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-admin-ui-layouts": {
+      "projectType": "library",
+      "root": "libs/shared/admin/ui/layouts",
+      "sourceRoot": "libs/shared/admin/ui/layouts/src",
+      "prefix": "layout",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/admin/ui/layouts/tsconfig.lib.json",
+              "libs/shared/admin/ui/layouts/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/admin/ui/layouts/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/admin/ui/layouts/jest.config.js",
+            "tsConfig": "libs/shared/admin/ui/layouts/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/admin/ui/layouts/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-admin-ui-theme": {
+      "projectType": "library",
+      "root": "libs/shared/admin/ui/theme",
+      "sourceRoot": "libs/shared/admin/ui/theme/src",
+      "prefix": "theme",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/admin/ui/theme/tsconfig.lib.json",
+              "libs/shared/admin/ui/theme/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/admin/ui/theme/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/admin/ui/theme/jest.config.js",
+            "tsConfig": "libs/shared/admin/ui/theme/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/admin/ui/theme/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-admin-ui-pagetitle": {
+      "projectType": "library",
+      "root": "libs/shared/admin/ui/pagetitle",
+      "sourceRoot": "libs/shared/admin/ui/pagetitle/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/admin/ui/pagetitle/tsconfig.lib.json",
+              "libs/shared/admin/ui/pagetitle/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/admin/ui/pagetitle/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/admin/ui/pagetitle/jest.config.js",
+            "tsConfig": "libs/shared/admin/ui/pagetitle/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/admin/ui/pagetitle/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-admin-ui-preloader": {
+      "projectType": "library",
+      "root": "libs/shared/admin/ui/preloader",
+      "sourceRoot": "libs/shared/admin/ui/preloader/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/admin/ui/preloader/tsconfig.lib.json",
+              "libs/shared/admin/ui/preloader/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/admin/ui/preloader/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/admin/ui/preloader/jest.config.js",
+            "tsConfig": "libs/shared/admin/ui/preloader/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/admin/ui/preloader/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-admin-ui-data-table": {
+      "projectType": "library",
+      "root": "libs/shared/admin/ui/data-table",
+      "sourceRoot": "libs/shared/admin/ui/data-table/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/admin/ui/data-table/tsconfig.lib.json",
+              "libs/shared/admin/ui/data-table/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/admin/ui/data-table/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/admin/ui/data-table/jest.config.js",
+            "tsConfig": "libs/shared/admin/ui/data-table/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/admin/ui/data-table/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-data-access-user": {
+      "projectType": "library",
+      "root": "libs/admin/data-access/user",
+      "sourceRoot": "libs/admin/data-access/user/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/data-access/user/tsconfig.lib.json",
+              "libs/admin/data-access/user/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/data-access/user/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/data-access/user/jest.config.js",
+            "tsConfig": "libs/admin/data-access/user/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/data-access/user/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-data-access-rol": {
+      "projectType": "library",
+      "root": "libs/admin/data-access/rol",
+      "sourceRoot": "libs/admin/data-access/rol/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/data-access/rol/tsconfig.lib.json",
+              "libs/admin/data-access/rol/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/admin/data-access/rol/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/data-access/rol/jest.config.js",
+            "tsConfig": "libs/admin/data-access/rol/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/data-access/rol/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "admin-data-access-category": {
+      "projectType": "library",
+      "root": "libs/admin/data-access/category",
+      "sourceRoot": "libs/admin/data-access/category/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/admin/data-access/category/tsconfig.lib.json",
+              "libs/admin/data-access/category/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/admin/data-access/category/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/admin/data-access/category/jest.config.js",
+            "tsConfig": "libs/admin/data-access/category/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/admin/data-access/category/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-data-access-document-type": {
+      "projectType": "library",
+      "root": "libs/shared/data-access/document-type",
+      "sourceRoot": "libs/shared/data-access/document-type/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/data-access/document-type/tsconfig.lib.json",
+              "libs/shared/data-access/document-type/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/data-access/document-type/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/data-access/document-type/jest.config.js",
+            "tsConfig": "libs/shared/data-access/document-type/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/data-access/document-type/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "shared-data-access-auth": {
+      "projectType": "library",
+      "root": "libs/shared/data-access/auth",
+      "sourceRoot": "libs/shared/data-access/auth/src",
+      "prefix": "akaliia",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/data-access/auth/tsconfig.lib.json",
+              "libs/shared/data-access/auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/data-access/auth/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/data-access/auth/jest.config.js",
+            "tsConfig": "libs/shared/data-access/auth/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/data-access/auth/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": "477c7c71-c413-400b-9164-23ea195733b2"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "admin-web"
+}

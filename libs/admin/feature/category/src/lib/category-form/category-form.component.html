@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col-xl-12">
+    <ngb-alert
+      *ngIf="message"
+      [type]="message.type"
+      dismissible="true"
+      (close)="message = null"
+    >
+      {{ message.message }}
+    </ngb-alert>
+    <div class="card">
+      <div class="card-body">
+        <form
+          class="needs-validation"
+          (ngSubmit)="submitForm()"
+          [formGroup]="categoryForm"
+        >
+          <akaliia-ui-preloader [display]="loading"></akaliia-ui-preloader>
+          <div class="row">
+            <div class="col-12">
+              <input
+                formControlName="name"
+                [ngClass]="{
+                  'is-invalid':
+                    categoryForm.get('name').errors &&
+                    categoryForm.get('name').touched
+                }"
+                type="text"
+                class="form-control"
+                placeholder="Nombre Categoria"
+              />
+              <ul
+                *ngIf="
+                  categoryForm.get('name').errors &&
+                  categoryForm.get('name').touched
+                "
+                class="invalid-feedback"
+              >
+                <li *ngIf="categoryForm.get('name').hasError('required')">
+                  El nombre es requerido
+                </li>
+                <li *ngIf="categoryForm.get('name').hasError('existCategory')">
+                  Esta categoria ya se encuentra registrada
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-12 mt-3">
+              <div class="form-group">
+                <textarea
+                  formControlName="description"
+                  [ngClass]="{
+                    'is-invalid':
+                      categoryForm.get('description').errors &&
+                      categoryForm.get('description').touched
+                  }"
+                  class="form-control"
+                  rows="5"
+                  placeholder="Descripcion Categoria"
+                  style="margin-top: 0px; margin-bottom: 0px; height: 90px;"
+                ></textarea>
+                <div
+                  *ngIf="
+                    categoryForm.get('description').errors &&
+                    categoryForm.get('description').touched
+                  "
+                  class="invalid-feedback"
+                >
+                  <div
+                    *ngIf="
+                      categoryForm.get('description')?.hasError('required')
+                    "
+                  >
+                    La descripcion es requerida
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mt-3">
+              <div class="form-group">
+                <ng-select
+                  formControlName="status"
+                  [ngClass]="{
+                    'is-invalid':
+                      categoryForm.get('status').errors &&
+                      categoryForm.get('status').touched
+                  }"
+                >
+                  <ng-option [value]="true">
+                    Activo
+                  </ng-option>
+                  <ng-option [value]="false">
+                    Anulado
+                  </ng-option>
+                </ng-select>
+                <div
+                  *ngIf="
+                    categoryForm.get('status').errors &&
+                    categoryForm.get('status').touched
+                  "
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="categoryForm.get('status')?.hasError('required')">
+                    El estado es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 float-left">
+              <button type="submit" class="btn btn-primary float-sm-right">
+                {{
+                  type == 'create'
+                    ? 'Registrar Categoria'
+                    : 'Actualizar Categoria'
+                }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card-->
+  </div>
+</div>

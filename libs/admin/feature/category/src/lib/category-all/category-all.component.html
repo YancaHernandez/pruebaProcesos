@@ -1,0 +1,165 @@
+<div class="container">
+  <akaliia-page-title
+    [title]="title"
+    [breadcrumbItems]="breadCrumbItems"
+  ></akaliia-page-title>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="float-right">
+                <button
+                  class="btn btn-primary"
+                  (click)="openModal(addDataModal)"
+                >
+                  <i [attr.data-feather]="'file-plus'" themeFeatherIcon></i>
+                  Agregar Categoria
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <akaliia-data-table
+            *ngIf="tableData"
+            [tableData]="tableData"
+            [matches]="matches"
+          >
+            <ng-template
+              let-tableData="tableData"
+              let-onSort="onSort"
+              let-tables$="tables$"
+              let-searchTerm="searchTerm"
+            >
+              <table class="table datatables dt-responsive nowrap">
+                <thead>
+                  <tr>
+                    <th akaliiaSortable sortable="name" (sort)="onSort($event)">
+                      nombre
+                    </th>
+                    <th
+                      akaliiaSortable
+                      sortable="description"
+                      (sort)="onSort($event)"
+                    >
+                      Descripcion
+                    </th>
+                    <th>Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let table of tables$ | async">
+                    <td>
+                      <ngb-highlight
+                        [result]="
+                          table.name.charAt(0).toUpperCase() +
+                          table.name.slice(1)
+                        "
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <ngb-highlight
+                        [result]="table.description"
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <a
+                        title="Modificar"
+                        class="btn"
+                        (click)="openModal(updateDataModal, table)"
+                      >
+                        <i
+                          [attr.data-feather]="'edit'"
+                          class="icon-xs icon-dual-primary"
+                          themeFeatherIcon
+                        ></i>
+                      </a>
+                      <a
+                        [attr.title]="table.status ? 'Bloquear' : 'Desbloquear'"
+                        class="btn"
+                        (click)="openModal(blockDataModal, table)"
+                      >
+                        <span *ngIf="table.status">
+                          <i
+                            [attr.data-feather]="'unlock'"
+                            class="icon-xs icon-dual-success"
+                            themeFeatherIcon
+                          ></i>
+                        </span>
+                        <span *ngIf="!table.status">
+                          <i
+                            [attr.data-feather]="'lock'"
+                            class="icon-xs icon-dual-danger"
+                            themeFeatherIcon
+                          ></i>
+                        </span>
+                      </a>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-template>
+          </akaliia-data-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #addDataModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Agregar Categoria</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-hidden="true"
+    >
+      ×
+    </button>
+  </div>
+  <div class="modal-body">
+    <akaliia-category-add></akaliia-category-add>
+  </div>
+</ng-template>
+
+<ng-template #updateDataModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Actualizar Categoria</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-hidden="true"
+    >
+      ×
+    </button>
+  </div>
+  <div class="modal-body">
+    <akaliia-category-edit
+      [category]="updateCategory"
+      *ngIf="updateCategory"
+    ></akaliia-category-edit>
+  </div>
+</ng-template>
+
+<ng-template #blockDataModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-hidden="true"
+    >
+      ×
+    </button>
+  </div>
+  <akaliia-category-block
+    [category]="updateCategory"
+    *ngIf="updateCategory"
+  ></akaliia-category-block>
+</ng-template>

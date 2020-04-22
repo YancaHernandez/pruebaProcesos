@@ -1,0 +1,19 @@
+<div class="modal-body text-center">
+  <i
+    [attr.data-feather]="'alert-triangle'"
+    class="icon-xxl icon-dual-warning "
+    themeFeatherIcon
+  ></i>
+  <h4 class="text-warning mt-4">{{ titleBlock | titlecase }}</h4>
+  <p class="w-75 mx-auto text-muted">¿Desea {{ titleBlock }} esta categoria?</p>
+  <div class="mt-4">
+    <a (click)="block()" class="btn btn-warning width-md text-white">
+      <i
+        [attr.data-feather]="category.status ? 'lock' : 'unlock'"
+        class="icon-xs"
+        themeFeatherIcon
+      ></i>
+      {{ titleBlock | titlecase }}
+    </a>
+  </div>
+</div>

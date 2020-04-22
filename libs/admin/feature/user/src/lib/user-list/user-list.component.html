@@ -1,0 +1,167 @@
+<div class="container">
+  <akaliia-page-title
+    [title]="title"
+    [breadcrumbItems]="breadCrumbItems"
+  ></akaliia-page-title>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="float-right">
+                <a [routerLink]="['add']">
+                  <button class="btn btn-primary">
+                    <i [attr.data-feather]="'user-plus'" themeFeatherIcon></i>
+                    Agregar Usuario
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <akaliia-data-table
+            *ngIf="tableData"
+            [tableData]="tableData"
+            [matches]="matches"
+          >
+            <ng-template
+              let-tableData="tableData"
+              let-onSort="onSort"
+              let-tables$="tables$"
+              let-searchTerm="searchTerm"
+            >
+              <table class="table datatables dt-responsive nowrap">
+                <thead>
+                  <tr>
+                    <th
+                      akaliiaSortable
+                      sortable="username"
+                      (sort)="onSort($event)"
+                    >
+                      Usuario
+                    </th>
+                    <th
+                      akaliiaSortable
+                      sortable="surname"
+                      (sort)="onSort($event)"
+                    >
+                      Nombre
+                    </th>
+                    <th
+                      akaliiaSortable
+                      sortable="lastname"
+                      (sort)="onSort($event)"
+                    >
+                      Apellido
+                    </th>
+                    <th
+                      akaliiaSortable
+                      sortable="document"
+                      (sort)="onSort($event)"
+                    >
+                      Documento
+                    </th>
+                    <th
+                      akaliiaSortable
+                      sortable="email"
+                      (sort)="onSort($event)"
+                    >
+                      Correo
+                    </th>
+                    <th>Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr tr *ngFor="let table of tables$ | async">
+                    <td>
+                      <ngb-highlight
+                        [result]="table.username"
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <ngb-highlight
+                        [result]="table.firstname"
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <ngb-highlight
+                        [result]="table.lastname"
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <ngb-highlight
+                        [result]="table.document"
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <ngb-highlight
+                        [result]="table.email"
+                        [term]="searchTerm"
+                      ></ngb-highlight>
+                    </td>
+                    <td>
+                      <a
+                        [routerLink]="['edit', table.id]"
+                        [state]="{ user: table }"
+                        title="Modificar"
+                        class="btn"
+                      >
+                        <i
+                          [attr.data-feather]="'edit'"
+                          class="icon-xs icon-dual-primary"
+                          themeFeatherIcon
+                        ></i>
+                      </a>
+                      <a
+                        [attr.title]="
+                          table.blocked ? 'Desbloquear' : 'Bloquear'
+                        "
+                        (click)="openModal(blockDataModal, table)"
+                        class="btn"
+                      >
+                        <span *ngIf="!table.blocked">
+                          <i
+                            [attr.data-feather]="'unlock'"
+                            class="icon-xs icon-dual-success"
+                            themeFeatherIcon
+                          ></i>
+                        </span>
+                        <span *ngIf="table.blocked">
+                          <i
+                            [attr.data-feather]="'lock'"
+                            class="icon-xs icon-dual-danger"
+                            themeFeatherIcon
+                          ></i>
+                        </span>
+                      </a>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-template>
+          </akaliia-data-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #blockDataModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-hidden="true"
+    >
+      ×
+    </button>
+  </div>
+  <akaliia-user-block [user]="userBlock"></akaliia-user-block>
+</ng-template>

@@ -1,0 +1,71 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@akaliia/admin/feature/shell": ["libs/admin/feature/shell/src/index.ts"],
+      "@akaliia/admin/feature/auth": ["libs/admin/feature/auth/src/index.ts"],
+      "@akaliia/shared/data-access/api": [
+        "libs/shared/data-access/api/src/index.ts"
+      ],
+      "@akaliia/admin/feature/dashboard": [
+        "libs/admin/feature/dashboard/src/index.ts"
+      ],
+      "@akaliia/shared/guards": ["libs/shared/guards/src/index.ts"],
+      "@akaliia/admin/feature/user": ["libs/admin/feature/user/src/index.ts"],
+      "@akaliia/shared/api-interfaces": [
+        "libs/shared/api-interfaces/src/index.ts"
+      ],
+      "@akaliia/admin/feature/products": [
+        "libs/admin/feature/products/src/index.ts"
+      ],
+      "@akaliia/admin/feature/category": [
+        "libs/admin/feature/category/src/index.ts"
+      ],
+      "@akaliia/shared/admin/ui/layouts": [
+        "libs/shared/admin/ui/layouts/src/index.ts"
+      ],
+      "@akaliia/shared/admin/ui/theme": [
+        "libs/shared/admin/ui/theme/src/index.ts"
+      ],
+      "@akaliia/shared/admin/ui/pagetitle": [
+        "libs/shared/admin/ui/pagetitle/src/index.ts"
+      ],
+      "@akaliia/shared/admin/ui/preloader": [
+        "libs/shared/admin/ui/preloader/src/index.ts"
+      ],
+      "@akaliia/shared/admin/ui/data-table": [
+        "libs/shared/admin/ui/data-table/src/index.ts"
+      ],
+      "@akaliia/admin/data-access/user": [
+        "libs/admin/data-access/user/src/index.ts"
+      ],
+      "@akaliia/admin/data-access/rol": [
+        "libs/admin/data-access/rol/src/index.ts"
+      ],
+      "@akaliia/admin/data-access/category": [
+        "libs/admin/data-access/category/src/index.ts"
+      ],
+      "@akaliia/shared/data-access/document-type": [
+        "libs/shared/data-access/document-type/src/index.ts"
+      ],
+      "@akaliia/shared/data-access/auth": [
+        "libs/shared/data-access/auth/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

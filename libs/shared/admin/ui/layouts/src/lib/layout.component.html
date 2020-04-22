@@ -1,0 +1,16 @@
+<!-- vertical layout -->
+<layout-vertical
+  *ngIf="isVerticalLayoutRequested()"
+  [layoutWidth]="layoutWidth"
+  [sidebarTheme]="leftSidebarTheme"
+  [sidebarType]="leftSidebarWidth"
+></layout-vertical>
+
+<!-- horizontal layout -->
+<layout-horizontal
+  *ngIf="isHorizontalLayoutRequested()"
+  [layoutWidth]="layoutWidth"
+></layout-horizontal>
+
+<!-- right sidebar-->
+<layout-rightsidebar></layout-rightsidebar>

@@ -1,0 +1,80 @@
+{
+  "npmScope": "akaliia",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "admin-web": {
+      "tags": [],
+      "implicitDependencies": ["shared-admin-ui-theme"]
+    },
+    "admin/web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["admin-web"]
+    },
+    "admin-feature-shell": {
+      "tags": []
+    },
+    "admin-feature-auth": {
+      "tags": []
+    },
+    "shared-data-access-api": {
+      "tags": []
+    },
+    "admin-feature-dashboard": {
+      "tags": []
+    },
+    "shared-guards": {
+      "tags": []
+    },
+    "admin-feature-user": {
+      "tags": []
+    },
+    "shared-api-interfaces": {
+      "tags": []
+    },
+    "admin-feature-products": {
+      "tags": []
+    },
+    "admin-feature-category": {
+      "tags": []
+    },
+    "shared-admin-ui-layouts": {
+      "tags": []
+    },
+    "shared-admin-ui-theme": {
+      "tags": []
+    },
+    "shared-admin-ui-pagetitle": {
+      "tags": []
+    },
+    "shared-admin-ui-preloader": {
+      "tags": []
+    },
+    "shared-admin-ui-data-table": {
+      "tags": []
+    },
+    "admin-data-access-user": {
+      "tags": []
+    },
+    "admin-data-access-rol": {
+      "tags": []
+    },
+    "admin-data-access-category": {
+      "tags": []
+    },
+    "shared-data-access-document-type": {
+      "tags": []
+    },
+    "shared-data-access-auth": {
+      "tags": []
+    }
+  }
+}

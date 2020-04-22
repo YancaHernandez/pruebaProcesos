@@ -1,0 +1,9 @@
+{
+  "output": "./dist/documentacion",
+  "tsconfig": "tsconfig.compodoc.json",
+  "name": "Documentación",
+  "language": "es-ES",
+  "theme": "material",
+  "hideGenerator": true,
+  "disableSourceCode": true
+}
